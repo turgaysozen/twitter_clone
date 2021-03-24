@@ -15,11 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from tweets.views import tweet_list_dtf_Serializers, tweet_detail, create_tweet_django_forms, create_tweet_drf_serializers, tweet_detail_view_drf_serializer
+from tweets.views import (tweet_list_drf_serializer, 
+                          tweet_detail, 
+                          create_tweet_django_forms, 
+                          create_tweet_drf_serializer, 
+                          tweet_detail_view_drf_serializer,
+                          tweet_delete_drf,
+                          tweet_action_drf)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', tweet_list_dtf_Serializers),
+    path('', tweet_list_drf_serializer),
     path('tweet/<int:tweet_id>', tweet_detail_view_drf_serializer),
-    path('create-tweet', create_tweet_drf_serializers)
+    path('create-tweet', create_tweet_drf_serializer),
+    path('api/tweet/<int:tweet_id>/delete', tweet_delete_drf),
+    path('api/tweets/action', tweet_action_drf)
 ]

@@ -26,9 +26,10 @@ SECRET_KEY = 'kn!uc^vc7wq_8cj*!i@xj*(7o+6-6ta3^mf!=7rz1f40hy$t)f'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
 LOGIN_URL = "/login"
 MAX_TWEET_LENGTH = 240
-
+TWEET_ACTION_OPTIONS = ['like', 'unlike', 'retweet']
 
 # Application definition
 
@@ -83,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'twitter_clone',
         'USER': 'postgres',
-        'PASSWORD': '123',
+        'PASSWORD': 'postgres',
         'HOST': 'localhost'
     }
 }
