@@ -3,7 +3,7 @@ from django.http import HttpResponse, Http404, JsonResponse
 from rest_framework.response import Response
 from .models import Tweet
 from .forms import TweetForm
-from .serializers import TweetSerializer, TweetActionSerializer
+from .serializers import TweetSerializer, TweetActionSerializer, TweetCreateSerializer
 from django.conf import settings
 from django.contrib.auth.models import User as UserModel
 from random import randint
@@ -63,17 +63,19 @@ def tweet_action_drf(request):
             return Response(serializer.data, status=200)
         elif action == 'unlike':
             obj.likes.remove(request.user)
+            serializer = TweetSerializer(obj)
+            return Response(serializer.data, status=200)
         elif action == 'retweet':
             retweet = Tweet.objects.create(user=request.user, parent=obj, content=content)
             serializer = TweetSerializer(retweet)
-            return Response(serializer.data, status=200)
+            return Response(serializer.data, status=201)
     return Response({}, status=200)
     
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_tweet_drf_serializer(request):
-    tweet_serializer = TweetSerializer(data=request.data)
+    tweet_serializer = TweetCreateSerializer(data=request.data)
     if tweet_serializer.is_valid(raise_exception=True):
         tweet_serializer.save(user=request.user)
         return Response(tweet_serializer.data, status=201)
