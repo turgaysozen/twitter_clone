@@ -33,11 +33,6 @@ class TweetTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_action_like(self):
-        # tweet_list = Tweet.objects.all()
-        # print('*************** -- like -- *************************')
-        # for tweet in tweet_list:
-        #     print(tweet.id)
-        # print('*************** -- like -- *************************')
         client = self.get_client()
         response = client.post("/api/tweets/action", {"id": 2, "action": "like"})
         self.assertEqual(response.status_code, 200)
@@ -45,11 +40,6 @@ class TweetTestCase(TestCase):
         self.assertEqual(like_count, 1)
 
     def test_action_unlike(self):
-        # tweet_list = Tweet.objects.all()
-        # print('*************** -- unlike -- *************************')
-        # for tweet in tweet_list:
-        #     print(tweet.id)
-        # print('*************** -- unlike -- *************************')
         client = self.get_client()
         response = client.post("/api/tweets/action", {"id": 6, "action": "like"})
         self.assertEqual(response.status_code, 200)
@@ -59,18 +49,10 @@ class TweetTestCase(TestCase):
         self.assertEqual(like_count, 0)
 
     def test_action_retweet(self):
-        # tweet_list = Tweet.objects.all()
-        # print('*************** -- retweet -- *************************')
-        # for tweet in tweet_list:
-        #     print(tweet.id)
-        # print('*************** -- retweet -- *************************')
         client = self.get_client()
         response = client.post("/api/tweets/action", {"id": 4, "action": "retweet"})
         self.assertEqual(response.status_code, 201)
         retweet_id = response.json().get('id')
-        # print('*************** -- retweet id -- *************************')
-        # print(retweet_id)
-        # print('*************** -- retweet id -- *************************')
         new_tweet_list = Tweet.objects.all()
         self.assertEqual(retweet_id, 5)
         self.assertEqual(self.tweet_count + 1, new_tweet_list.count())
@@ -85,11 +67,6 @@ class TweetTestCase(TestCase):
         self.assertEqual(response.status_code, 201)
 
     def test_tweet_detail_view(self):
-        # tweet_list = Tweet.objects.all()
-        # print('*************** -- detail -- *************************')
-        # for tweet in tweet_list:
-        #     print(tweet.id)
-        # print('*************** -- detail -- *************************')
         client = self.get_client()
         response = client.get('/api/tweets/17')
         data = response.json()
@@ -97,11 +74,6 @@ class TweetTestCase(TestCase):
         self.assertEqual(17, tweet_id)
 
     def test_tweet_delete(self):
-        # tweet_list = Tweet.objects.all()
-        # print('*************** -- delete -- *************************')
-        # for tweet in tweet_list:
-        #     print(tweet.user, tweet.id)
-        # print('*************** -- delete -- *************************')
         client = self.get_client()
         response = client.delete('/api/tweets/15/delete')
         self.assertEqual(response.status_code, 401)
