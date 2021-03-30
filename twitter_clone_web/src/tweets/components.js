@@ -1,21 +1,64 @@
 import React, { useEffect, useState } from 'react'
 import { FetchTweets } from '../lookup'
 
-export const TweetList = () => {
-    const [tweets, setTweets] = useState([])
+// 'create new tweet component',it handles form by onsubmit method
+export const TweetComponent = (props) => {
+    const textAreaRef = React.createRef()
+    const [newTweets, setNewTweets] = useState([])
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        const newTweet = textAreaRef.current.value
+        let tempNewTweets = [...newTweets]
+        tempNewTweets.unshift({
+            content: newTweet,
+            id: 123,
+            likes: 0
+        })
+        setNewTweets(tempNewTweets)
+        textAreaRef.current.value = ''
+    }
+
+    return <div className={props.className}>
+        <div className='col-12 mb-3'>
+            <form onSubmit={handleSubmit}>
+                <textarea rows='5' ref={textAreaRef} className='form-control' name='tweet'>
+
+                </textarea>
+                <button className='btn btn-primary my-3' type='submit'>Tweet</button>
+            </form>
+            <TweetList newTweets={newTweets} />
+        </div>
+    </div>
+}
+
+// list all tweet list component
+export const TweetList = (props) => {
+    const [tweetsInit, setTweetsInit] = useState([]) // for init tweet list
+    const [tweets, setTweets] = useState([]) // for last tweet list
+
+    // last tweet list after create a new tweet
+    useEffect(() => {
+        const final = [...props.newTweets].concat(tweetsInit)
+        if(final.length !== tweets.length){
+            setTweets(final)
+        }
+    }, [props.newTweets, tweetsInit]) // dependencies are new tweet and init tweet list
+
+    // init tweet list before create a new tweet
     useEffect(() => {
         async function loadTeets() {
             const res = await FetchTweets()
-            setTweets(res)
+            setTweetsInit(res)
         }
         loadTeets()
-    }, [])
+    }, []) // there are no dependencies (because it lists init tweet list)
 
     return tweets.map((item) => {
         return <Tweet key={item.id} tweet={item} className='my-5 py-5 border bg-white text-dark' />
     })
 }
 
+// action button component for like, unlike and retweet
 export const ActionBtn = (props) => {
     const { tweet, action } = props
     const [likes, setLikes] = useState(tweet.likes ? tweet.likes : 0)
@@ -38,6 +81,7 @@ export const ActionBtn = (props) => {
     return <button className={className} onClick={handleClick}>{display}</button>
 }
 
+// single tweet item component with has action buttons
 export const Tweet = (props) => {
     const { tweet } = props
     const className = props.className ? props.className : 'col-10 mx-auto col-md-6'
