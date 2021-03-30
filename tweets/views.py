@@ -32,7 +32,7 @@ def tweet_detail_view_drf_serializer(request, tweet_id):
 def tweet_delete_drf(request, tweet_id):
     qs = Tweet.objects.filter(id=tweet_id)
     if not qs:
-        return Response({}, status=404)
+        return Response({"message: there is no tweet with this id"}, status=404)
     qs = qs.filter(user=request.user)
     if not qs:
         return Response({"message: You can not delete this tweet"}, status=401)

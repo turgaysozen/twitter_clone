@@ -25,7 +25,7 @@ SECRET_KEY = 'kn!uc^vc7wq_8cj*!i@xj*(7o+6-6ta3^mf!=7rz1f40hy$t)f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 LOGIN_URL = "/login"
 MAX_TWEET_LENGTH = 240
@@ -42,10 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'tweets',
-    'rest_framework'
+    'corsheaders',
+    'rest_framework',
+
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -127,3 +130,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_URLS_REGEX = r'^/api/.*$'
