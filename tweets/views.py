@@ -9,6 +9,8 @@ from django.contrib.auth.models import User as UserModel
 from random import randint
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from django.views.decorators import csrf
+
 
 User = settings.AUTH_USER_MODEL
 
@@ -66,7 +68,7 @@ def tweet_action_drf(request):
             serializer = TweetSerializer(obj)
             return Response(serializer.data, status=200)
         elif action == 'retweet':
-            retweet = Tweet.objects.create(user=request.user, parent=obj, content=content)
+            retweet = Tweet.objects.create(user=request.user, parent=obj, content=obj.content)
             serializer = TweetSerializer(retweet)
             return Response(serializer.data, status=201)
     return Response({}, status=200)
@@ -110,3 +112,7 @@ def tweet_detail(request, tweet_id):
     except:
         raise Http404
     return HttpResponse(f'Tweet: {tweet.content}, img:{tweet.image}')
+
+
+def get_csrf(request):
+    return HttpResponse("{0}".format(csrf.get_token(request)), content_type="text/plain")

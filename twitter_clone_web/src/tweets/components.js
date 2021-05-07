@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { FetchTweets } from '../lookup'
+import { FetchTweets, createTweet, actionLike } from '../lookup'
 
 // 'create new tweet component',it handles form by onsubmit method
 export const TweetComponent = (props) => {
     const textAreaRef = React.createRef()
     const [newTweets, setNewTweets] = useState([])
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
         const newTweet = textAreaRef.current.value
-        let tempNewTweets = [...newTweets]
-        tempNewTweets.unshift({
-            content: newTweet,
-            id: 123,
-            likes: 0
-        })
-        setNewTweets(tempNewTweets)
-        textAreaRef.current.value = ''
+        if (newTweet) {
+            let tempNewTweets = [...newTweets]
+            const res = await createTweet(newTweet)
+            const res_data = await res.json()
+            if (res.status === 201) {
+                tempNewTweets.unshift({
+                    content: res_data["content"],
+                    id: res_data["id"],
+                    likes: res_data["likes"],
+                })
+                textAreaRef.current.value = ''
+                setNewTweets(tempNewTweets)
+            }
+        } else alert('Enter a tweet!!')
     }
 
     return <div className={props.className}>
@@ -39,14 +45,14 @@ export const TweetList = (props) => {
     // last tweet list after create a new tweet
     useEffect(() => {
         const final = [...props.newTweets].concat(tweetsInit)
-        if(final.length !== tweets.length){
+        if (final.length !== tweets.length) {
             setTweets(final)
         }
-    }, [props.newTweets, tweetsInit]) // dependencies are new tweet and init tweet list
+    }, [props.newTweets, tweetsInit, tweets]) // dependencies are new tweet and init tweet list
 
     // init tweet list before create a new tweet
     useEffect(() => {
-        async function loadTeets() {
+        const loadTeets = async () => {
             const res = await FetchTweets()
             setTweetsInit(res)
         }
@@ -65,16 +71,25 @@ export const ActionBtn = (props) => {
     const [userLike, setUserLike] = useState(tweet.userLike ? true : false)
     const className = 'btn btn-primary btn-sm'
     const actionDisplay = action.display ? action.display : 'Action'
-    const handleClick = (event) => {
+    const handleClick = async (event) => {
         event.preventDefault()
         if (action.type === 'like') {
-            if (userLike) {
-                setLikes(likes - 1)
-                setUserLike(false)
-            } else {
-                setLikes(likes + 1)
-                setUserLike(true)
+            if (likes === 0) {
+                const res = await actionLike(tweet.id, 'like')
+                const data = await res.json()
+                setLikes(data.likes)
+            } else if (likes === 1) {
+                const res = await actionLike(tweet.id, 'unlike')
+                const data = await res.json()
+                setLikes(data.likes)
             }
+            // if (userLike) {
+            //     setLikes(likes - 1)
+            //     setUserLike(false)
+            // } else {
+            //     setLikes(likes + 1)
+            //     setUserLike(true)
+            // }
         }
     }
     const display = action.type === 'like' ? `${likes} ${actionDisplay}` : actionDisplay
@@ -89,9 +104,8 @@ export const Tweet = (props) => {
         <p>{tweet.id} - {tweet.content}</p>
         <div className='btn btn-group'>
             <ActionBtn tweet={tweet} action={{ type: 'like', display: 'Likes' }} />
-            <ActionBtn tweet={tweet} action={{ type: 'unlike', display: 'Unlike' }} />
+            {/* <ActionBtn tweet={tweet} action={{ type: 'unlike', display: 'Unlike' }} /> */}
             <ActionBtn tweet={tweet} action={{ type: 'retweet', display: 'Retweet' }} />
-
         </div>
     </div>
 }

@@ -25,7 +25,7 @@ SECRET_KEY = 'kn!uc^vc7wq_8cj*!i@xj*(7o+6-6ta3^mf!=7rz1f40hy$t)f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 LOGIN_URL = "/login"
 MAX_TWEET_LENGTH = 240
@@ -133,3 +133,25 @@ STATIC_URL = '/static/'
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_URLS_REGEX = r'^/api/.*$'
+
+
+DEFAULT_RENDERER_CLASSES = [
+        'rest_framework.renderers.JSONRenderer',
+    ]
+
+DEFAULT_AUTHENTICATION_CLASSES = [
+    'rest_framework.authentication.SessionAuthentication'
+]
+if DEBUG:
+    DEFAULT_RENDERER_CLASSES += [
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+    # only for development, turn off on production
+    DEFAULT_AUTHENTICATION_CLASSES += [
+        'twitter_clone.rest_api.dev.DevAuthentication'
+    ]
+REST_FRAMEWORK = {
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': DEFAULT_AUTHENTICATION_CLASSES,
+    'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES
+}

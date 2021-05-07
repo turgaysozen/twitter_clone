@@ -5,7 +5,8 @@ from .views import (tweet_list_drf_serializer,
                           create_tweet_drf_serializer, 
                           tweet_detail_view_drf_serializer,
                           tweet_delete_drf,
-                          tweet_action_drf)
+                          tweet_action_drf,
+                          get_csrf)
 
 urlpatterns = [
     path('', tweet_list_drf_serializer),
@@ -13,4 +14,5 @@ urlpatterns = [
     path('<int:tweet_id>', tweet_detail_view_drf_serializer),
     path('create', create_tweet_drf_serializer),
     path('<int:tweet_id>/delete', tweet_delete_drf),
+    path('get_csrf', get_csrf, name="get_csrf"),
 ]

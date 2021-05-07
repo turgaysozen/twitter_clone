@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="15c25917-593b-44f8-beb1-523c46e2afb3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tweets/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/tweets/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tweets/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/tweets/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tweets/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/tweets/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/twitter_clone/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/twitter_clone/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/twitter_clone_web/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/twitter_clone_web/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/twitter_clone_web/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/twitter_clone_web/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/twitter_clone_web/src/lookup/components.js" beforeDir="false" afterPath="$PROJECT_DIR$/twitter_clone_web/src/lookup/components.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/twitter_clone_web/src/lookup/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/twitter_clone_web/src/lookup/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/twitter_clone_web/src/tweets/components.js" beforeDir="false" afterPath="$PROJECT_DIR$/twitter_clone_web/src/tweets/components.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

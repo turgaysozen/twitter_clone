@@ -1,5 +1,7 @@
-import { FetchTweets } from './components'
+import { FetchTweets, createTweet, actionLike } from './components'
 
 export {
-    FetchTweets
+    FetchTweets,
+    createTweet,
+    actionLike
 }
